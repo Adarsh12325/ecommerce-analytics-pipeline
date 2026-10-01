@@ -1,0 +1,80 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "silver_expectations",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "InvoiceDate"
+      },
+      "meta": {
+        "notes": "Day-level date dimension column must exist."
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Country"
+      },
+      "meta": {
+        "notes": "Geographic dimension column must exist."
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "DailyTotalSales"
+      },
+      "meta": {
+        "notes": "Primary aggregate revenue metric column must exist."
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "DailyTotalSales"
+      },
+      "meta": {
+        "notes": "Daily aggregated sales metric must never be null."
+      }
+    },
+    {
+      "expectation_type": "expect_compound_columns_to_be_unique",
+      "kwargs": {
+        "column_list": [
+          "InvoiceDate",
+          "Country"
+        ]
+      },
+      "meta": {
+        "notes": "The composite key (InvoiceDate, Country) must be strictly unique after grouping."
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "DailyTotalSales",
+        "min_value": 0.0
+      },
+      "meta": {
+        "notes": "Daily total sales cannot be negative after filtering out negative quantities and prices."
+      }
+    },
+    {
+      "expectation_type": "expect_table_row_count_to_be_between",
+      "kwargs": {
+        "min_value": 1,
+        "max_value": 10000000
+      },
+      "meta": {
+        "notes": "Silver analytical table must not be empty and must remain within expected bounds."
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.18.22",
+    "layer": "silver",
+    "description": "Validation expectations for cleansed and aggregated Silver Parquet data"
+  }
+}

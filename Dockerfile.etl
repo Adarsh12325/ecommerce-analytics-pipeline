@@ -1,0 +1,44 @@
+# syntax=docker/dockerfile:1
+FROM python:3.10-slim-bullseye
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/opt/airflow \
+    AIRFLOW_HOME=/opt/airflow \
+    DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies needed for compiling C extensions and SQLite/Postgres
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    git \
+    libpq-dev \
+    sqlite3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create working directory and airflow user
+WORKDIR /opt/airflow
+
+# Install Python requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Create necessary directories
+RUN mkdir -p /opt/airflow/data/raw \
+    /opt/airflow/data/bronze \
+    /opt/airflow/data/silver \
+    /opt/airflow/dags \
+    /opt/airflow/etl_scripts \
+    /opt/airflow/great_expectations \
+    /opt/airflow/tests \
+    /opt/airflow/logs
+
+# Copy application directories into image
+COPY etl_scripts/ /opt/airflow/etl_scripts/
+COPY great_expectations/ /opt/airflow/great_expectations/
+COPY tests/ /opt/airflow/tests/
+
+# Set default command for interactive/testing container
+CMD ["pytest", "tests/", "-v"]

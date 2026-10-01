@@ -1,0 +1,126 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "bronze_expectations",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "InvoiceNo"
+      },
+      "meta": {
+        "notes": "Transaction identifier column must exist in Bronze schema."
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "StockCode"
+      },
+      "meta": {
+        "notes": "Item/Stock code column must exist in Bronze schema."
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Quantity"
+      },
+      "meta": {
+        "notes": "Order item quantity column must exist in Bronze schema."
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "InvoiceDate"
+      },
+      "meta": {
+        "notes": "Timestamp column must exist in Bronze schema."
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "UnitPrice"
+      },
+      "meta": {
+        "notes": "Unit price column must exist in Bronze schema."
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "CustomerID"
+      },
+      "meta": {
+        "notes": "Customer identifier column must exist in Bronze schema."
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Country"
+      },
+      "meta": {
+        "notes": "Country column must exist in Bronze schema."
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "InvoiceNo"
+      },
+      "meta": {
+        "notes": "Invoice numbers must not contain null values."
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "CustomerID",
+        "mostly": 0.70
+      },
+      "meta": {
+        "notes": "CustomerID should not be null for at least 70% of transactions (guest checkouts tolerated in Bronze before Silver imputation)."
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_of_type",
+      "kwargs": {
+        "column": "Quantity",
+        "type_": "int64"
+      },
+      "meta": {
+        "notes": "Quantity must be standardized to 64-bit integer."
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_of_type",
+      "kwargs": {
+        "column": "UnitPrice",
+        "type_": "float64"
+      },
+      "meta": {
+        "notes": "UnitPrice must be standardized to 64-bit float."
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "Quantity",
+        "min_value": 1,
+        "max_value": 100000,
+        "mostly": 0.85
+      },
+      "meta": {
+        "notes": "Quantity should be positive (>0) for sales transactions; allows minor proportion of returns in raw bronze layer."
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.18.22",
+    "layer": "bronze",
+    "description": "Validation expectations for Bronze partitioned Parquet transactions"
+  }
+}

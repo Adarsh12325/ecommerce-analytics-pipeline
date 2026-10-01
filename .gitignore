@@ -1,0 +1,54 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments & virtualenvs
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Airflow local artifacts & logs
+logs/
+airflow.cfg
+airflow.db
+webserver_config.py
+
+# Great Expectations uncommitted files
+great_expectations/uncommitted/data_docs/
+great_expectations/uncommitted/validations/
+great_expectations/uncommitted/config_variables.yml
+gx/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+data/analytics.db
+
+# Large runtime data (keep directory structure with .gitkeep)
+data/bronze/*
+!data/bronze/.gitkeep
+data/silver/*
+!data/silver/.gitkeep
+
+# Operating System specific
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.idea/
+.vscode/
